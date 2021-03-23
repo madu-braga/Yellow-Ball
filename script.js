@@ -1,11 +1,11 @@
 //var do meu game
     var canvas, ctx // desenho e contexto
-    var ALTURA, LARGURA, frames=0, maxPulos = 3 // tela e contagem 
+    var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6 // tela e contagem 
 
         chao = { // chão
         y: 550,
         altura: 50,
-        cor: "#99d98c",
+        cor: "#7cfc00",
 
         desenha: function(){ // criando método pro objeto
             ctx.fillStyle = this.cor;
@@ -19,11 +19,11 @@
         y: 0,
         altura: 50,
         largura: 50,
-        cor: "#fdd103",
+        cor: "#ffdb18",
         gravidade: 1.5,
         velocidade: 0,
         forcaDoPulo: 22,
-        QntPulos: 0,
+        qntPulos: 0,
 
         atualiza: function(){
             this.velocidade += this.gravidade;
@@ -31,20 +31,68 @@
 
             if (this.y > chao.y - this.altura) {
                 this.y = chao.y - this.altura;
+                this.qntPulos = 0;
                 this.velocidade = 0;
             }
         },
 
         pula: function() {
-            if (this.QntPulos < maxPulos){
+            if (this.qntPulos < maxPulos){
                 this.velocidade = -this.forcaDoPulo;
-                this.QntPulos++; 
+                this.qntPulos++; 
             }
         },
+
 
         desenha: function(){
             ctx.fillStyle = this.cor;
             ctx.fillRect(this.x, this.y, this.largura, this.altura);
+        }
+    },
+
+    obstaculos = {
+        _obs: [],
+        cores: ["#218380", "#52796f", "#774936", "#7f5539", "#9c6644", "#0b525b"],
+        tempoInsere: 0,
+
+        insere: function(){
+            this._obs.push({
+                x: LARGURA,
+                largura: 30 + Math.floor(21 * Math.random()), 
+                altura: 30 + Math.floor(120 * Math.random()), 
+                cor: this.cores[Math.floor(6 * Math.random())],
+            });
+            this.tempoInsere = 30;
+        },
+
+        atualiza: function(){
+            if(this.tempoInsere == 0)
+                this.insere();
+            else
+                this.tempoInsere--;
+
+            for (var i = 0, tam=this._obs.length - 1; i < tam; i++) {
+                var obs = this._obs[i];
+
+                obs.x -= velocidade;
+
+                if(obs.x <= -obs.largura){
+                    this._obs.splice(i, 1); 
+                    tam--;
+                    i--;
+                }
+            }
+        },
+
+        desenha: function(){
+            tam = this._obs.length;
+
+            for (var i = 0, tam = this._obs.length; i < tam; i++){
+                var obs = this._obs[i];
+
+                    ctx.fillStyle = obs.cor;
+                    ctx.fillRect(obs.x, chao.y - obs.altura, obs.largura, obs.altura);
+            }
         }
     };
 
@@ -89,6 +137,8 @@
 
         bloco.atualiza();
 
+        obstaculos.atualiza();
+
      }
 
     function desenha() {
@@ -96,6 +146,7 @@
         ctx.fillRect(0, 0, LARGURA, ALTURA);
 
         chao.desenha();
+        obstaculos.desenha();
         bloco.desenha();
      }
 
