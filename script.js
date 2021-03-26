@@ -3,7 +3,7 @@
     var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
     var estadoAtual, 
     
-    estado = {
+    estados = {
         jogar: 0,
         jogando: 1,
         perdeu: 2
@@ -154,6 +154,22 @@
         ctx.fillRect(0, 0, LARGURA, ALTURA);
 
         chao.desenha();
+        if(estadoAtual == estados.jogar){
+            ctx.fillStyle = "green";
+            ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100);
+        }
+        
+        else if(estadoAtual == estados.perdeu){
+            ctx.fillStyle = "red";
+            ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100)
+        }
+
+        else if(estadoAtual == estados.jogando){
+            obstaculos.desenha();
+            chao.desenha();
+            bloco.desenha();
+        }
+
         obstaculos.desenha();
         bloco.desenha();
      }
