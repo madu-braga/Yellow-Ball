@@ -1,6 +1,13 @@
 //var do meu game
-    var canvas, ctx // desenho e contexto
-    var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6 // tela e contagem 
+    var canvas, ctx; // desenho e contexto
+    var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
+    var estadoAtual, 
+    
+    estado = {
+        jogar: 0,
+        jogando: 1,
+        perdeu: 2
+    },
 
         chao = { // chão
         y: 550,
@@ -91,7 +98,7 @@
                 var obs = this._obs[i];
 
                     ctx.fillStyle = obs.cor;
-                    ctx.fillRect(obs.x, chao.y - obs.altura, obs.largura, obs.altura);
+                    ctx.fillRect( obs.x, chao.y - obs.altura, obs.largura, obs.altura);
             }
         }
     };
@@ -121,6 +128,7 @@
 
         document.addEventListener("mousedown",clique);
 
+        estadoAtual = estado.jogar;
         roda();
      }
 
