@@ -1,7 +1,7 @@
 //var do meu game
     var canvas, ctx; // desenho e contexto
     var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
-    var estadoAtual, 
+    var estadoAtual,
     
     estados = {
         jogar: 0,
@@ -128,7 +128,7 @@
 
         document.addEventListener("mousedown",clique);
 
-        estadoAtual = estado.jogar;
+        estadoAtual = estados.jogar;
         roda();
      }
 
