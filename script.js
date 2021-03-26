@@ -105,7 +105,15 @@
 
 //funções do meu game
     function clique(event){
-        bloco.pula();    
+        if(estadoAtual == estados.jogando){
+            bloco.pula();    
+        }
+        else if(estadoAtual == estados.jogar){
+            estadoAtual = estados.jogando;
+        }
+        else if(estadoAtual == estados.perdeu){
+            estadoAtual = estados.jogar;
+        }
     }
 
     function main(){ //funções de minha engine, principal
@@ -145,8 +153,9 @@
 
         bloco.atualiza();
 
-        obstaculos.atualiza();
-
+        if(estadoAtual == estados.jogando){
+            obstaculos.atualiza();
+        }
      }
 
     function desenha() {
