@@ -1,21 +1,5 @@
 
-        atualiza: function(){
-            this.velocidade += this.gravidade;
-            this.y += this.velocidade;
-
-            if (this.y > chao.y - this.altura && estadoAtual != estados.perdeu) {
-                this.y = chao.y - this.altura;
-                this.qntPulos = 0;
-                this.velocidade = 0;
-            }
-        },
-
-        pula: function() {
-            if (this.qntPulos < maxPulos){
-                this.velocidade = -this.forcaDoPulo;
-                this.qntPulos++; 
-            }
-        },
+       
 
 
         desenha: function(){
