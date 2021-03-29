@@ -1,7 +1,4 @@
-//var do meu game
-    var canvas, ctx; // desenho e contexto
-    var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
-    var estadoAtual,
+
     
     estados = {
         jogar: 0,
