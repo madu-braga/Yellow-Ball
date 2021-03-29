@@ -1,5 +1,54 @@
+//var do meu game
+    var canvas, ctx; // desenho e contexto
+    var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
+    var estadoAtual,
+    
+    estados = {
+        jogar: 0,
+        jogando: 1,
+        perdeu: 2
+    },
 
-       
+        chao = { // chão
+        y: 550,
+        altura: 50,
+        cor: "#7cfc00",
+
+        desenha: function(){ // criando método pro objeto
+            ctx.fillStyle = this.cor;
+            ctx.fillRect(0, this.y, LARGURA, this.altura);
+
+        }
+    },
+
+    bloco = {
+        x: 50,
+        y: 0,
+        altura: 50,
+        largura: 50,
+        cor: "#ffdb18",
+        gravidade: 1.5,
+        velocidade: 0,
+        forcaDoPulo: 22,
+        qntPulos: 0,
+
+        atualiza: function(){
+            this.velocidade += this.gravidade;
+            this.y += this.velocidade;
+
+            if (this.y > chao.y - this.altura && estadoAtual != estados.perdeu) {
+                this.y = chao.y - this.altura;
+                this.qntPulos = 0;
+                this.velocidade = 0;
+            }
+        },
+
+        pula: function() {
+            if (this.qntPulos < maxPulos){
+                this.velocidade = -this.forcaDoPulo;
+                this.qntPulos++; 
+            }
+        },
 
 
         desenha: function(){
