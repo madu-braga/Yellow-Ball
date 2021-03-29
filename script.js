@@ -36,7 +36,7 @@
             this.velocidade += this.gravidade;
             this.y += this.velocidade;
 
-            if (this.y > chao.y - this.altura) {
+            if (this.y > chao.y - this.altura && estadoAtual != estados.perdeu) {
                 this.y = chao.y - this.altura;
                 this.qntPulos = 0;
                 this.velocidade = 0;
@@ -69,7 +69,7 @@
                 altura: 30 + Math.floor(120 * Math.random()), 
                 cor: this.cores[Math.floor(6 * Math.random())],
             });
-            this.tempoInsere = 30;
+            this.tempoInsere = 50;
         },
 
         atualiza: function(){
@@ -83,12 +83,21 @@
 
                 obs.x -= velocidade;
 
-                if(obs.x <= -obs.largura){
+                if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && 
+                    bloco.y + bloco.altura >= chao.y - obs.altura){
+                    estadoAtual = estados.perdeu;
+                }
+
+                else if(obs.x <= -obs.largura){
                     this._obs.splice(i, 1); 
                     tam--;
                     i--;
                 }
             }
+        },
+
+        limpa: function(){
+            this._obs = [];
         },
 
         desenha: function(){
@@ -113,6 +122,8 @@
         }
         else if(estadoAtual == estados.perdeu){
             estadoAtual = estados.jogar;
+            bloco.velocidade = 0;
+            bloco.y = 0;
         }
     }
 
@@ -156,6 +167,9 @@
         if(estadoAtual == estados.jogando){
             obstaculos.atualiza();
         }
+        else if(estadoAtual == estados.perdeu){
+            obstaculos.limpa();
+        }
      }
 
     function desenha() {
@@ -184,8 +198,3 @@
      }
 
     main() //chamando a função principal para começar o game
-
-
-
- 
-  
