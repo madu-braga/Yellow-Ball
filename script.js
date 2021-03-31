@@ -187,7 +187,7 @@ function desenha() {
 
     ctx.fillStyle = "#fff";
     ctx.font = "50px Arial";
-    ctx.fillText(bloco.score, 28, 60);
+    ctx.fillText(bloco.score, 28, 62);
   
     if(estadoAtual == estados.jogar){
         ctx.fillStyle = "green";
@@ -197,6 +197,23 @@ function desenha() {
     else if(estadoAtual == estados.perdeu){
         ctx.fillStyle = "red";
         ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100)
+
+        ctx.save();
+        ctx.translate(LARGURA/2, ALTURA/2);
+        ctx.fillStyle = "#fff";
+        ctx.font = "50px Arial";
+
+        if(bloco.score < 10){
+            ctx.fillText(bloco.score, -14, 18);
+        }
+        else if(bloco.score >= 10 && bloco.score < 100){
+            ctx.fillText(bloco.score, -28, 18);
+        }
+        else {
+            ctx.fillText(bloco.score, -42, 18);
+        }
+
+        ctx.restore();
     }
 
     else if(estadoAtual == estados.jogando){
