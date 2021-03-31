@@ -31,6 +31,7 @@
         velocidade: 0,
         forcaDoPulo: 22,
         qntPulos: 0,
+        score: 0,
 
         atualiza: function(){
             this.velocidade += this.gravidade;
@@ -50,6 +51,10 @@
             }
         },
 
+        reset: function(){
+            bloco.velocidade = 0;
+            bloco.y = 0;
+        },
 
         desenha: function(){
             ctx.fillStyle = this.cor;
@@ -65,7 +70,7 @@
         insere: function(){
             this._obs.push({
                 x: LARGURA,
-                largura: 30 + Math.floor(21 * Math.random()), 
+                largura: 50,
                 altura: 30 + Math.floor(120 * Math.random()), 
                 cor: this.cores[Math.floor(6 * Math.random())],
             });
@@ -122,8 +127,8 @@
         }
         else if(estadoAtual == estados.perdeu){
             estadoAtual = estados.jogar;
-            bloco.velocidade = 0;
-            bloco.y = 0;
+            obstaculos.limpa();
+            bloco.reset()
         }
     }
 
@@ -167,9 +172,7 @@
         if(estadoAtual == estados.jogando){
             obstaculos.atualiza();
         }
-        else if(estadoAtual == estados.perdeu){
-            obstaculos.limpa();
-        }
+        
      }
 
     function desenha() {
