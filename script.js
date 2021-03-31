@@ -7,7 +7,6 @@ estados = {
     jogar: 0,
     jogando: 1,
     perdeu: 2,
-    score: 0
 },
 
     chao = { // chão
@@ -32,6 +31,7 @@ bloco = {
     velocidade: 0,
     forcaDoPulo: 22,
     qntPulos: 0,
+    score: 0,
 
     atualiza: function(){
         this.velocidade += this.gravidade;
@@ -183,8 +183,12 @@ function atualiza() {
 function desenha() {
     ctx.fillStyle = "#50beff";
     ctx.fillRect(0, 0, LARGURA, ALTURA);
-
     chao.desenha();
+
+    ctx.fillStyle = "#fff";
+    ctx.font = "50px Arial";
+    ctx.fillText(bloco.score, 28, 60);
+  
     if(estadoAtual == estados.jogar){
         ctx.fillStyle = "green";
         ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100);
