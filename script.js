@@ -206,7 +206,3 @@ function desenha() {
  }
 
 main() //chamando a função principal para começar o game
-
-
-
-
