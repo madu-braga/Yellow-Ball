@@ -5,17 +5,7 @@ var estadoAtual, record,
 
 
 
-    chao = { // chão
-    y: 550,
-    altura: 50,
-    cor: "#7cfc00",
-
-    desenha: function(){ // criando método pro objeto
-        ctx.fillStyle = this.cor;
-        ctx.fillRect(0, this.y, LARGURA, this.altura);
-
-    }
-},
+   
 
 bloco = {
     x: 50,
