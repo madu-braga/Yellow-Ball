@@ -3,11 +3,7 @@ var canvas, ctx; // desenho e contexto
 var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
 var estadoAtual, record, 
 
-estados = {
-    jogar: 0,
-    jogando: 1,
-    perdeu: 2,
-},
+
 
     chao = { // chão
     y: 550,
