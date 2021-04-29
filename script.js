@@ -3,9 +3,23 @@ var canvas, ctx; // desenho e contexto
 var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
 var estadoAtual, record, 
 
+estados = {
+    jogar: 0,
+    jogando: 1,
+    perdeu: 2,
+},
 
+    chao = { // chão
+    y: 550,
+    altura: 50,
+    cor: "#7cfc00",
 
-   
+    desenha: function(){ // criando método pro objeto
+        ctx.fillStyle = this.cor;
+        ctx.fillRect(0, this.y, LARGURA, this.altura);
+
+    }
+},
 
 bloco = {
     x: 50,
