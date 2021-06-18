@@ -3,10 +3,40 @@ var canvas, ctx; // desenho e contexto
 var ALTURA, LARGURA, maxPulos = 3, velocidade = 6; // tela e contagem 
 var estadoAtual, record, img,
 
+pontosParaNovaFase = [5, 10, 15, 20],
+faseAtual = 0,
+
+labelNovaFase = {
+    texto: "",
+    opacidade: 0.0,
+    
+        fadeIn: function(dt) {
+            var fadeInId = setInterval(function() {
+                if (labelNovaFase.opacidade < 1.0)
+                    labelNovaFase.opacidade += 0.01;
+
+                else {
+                    clearInterval(fadeInId);
+                }
+            }, 10 * dt);
+        },
+
+        fadeOut: function(dt) {
+            var fadeOutId = setInterval(function() {
+                if (labelNovaFase.opacidade > 0.0)
+                    labelNovaFase.opacidade -= 0.01;
+
+                else {
+                    clearInterval(fadeOutId);
+                }
+            }, 10 * dt);
+        }
+    },
+
 estados = {
     jogar: 0,
     jogando: 1,
-    perdeu: 2,
+    perdeu: 2
 },
 
 chao = {
@@ -15,18 +45,17 @@ chao = {
     altura: 50,
 
     atualiza: function() {
-       this.x -= velocidade;
+        this.x -= velocidade;
 
-       if (this.x <= -30) {
-        this.x = 0;
-    }
-},
+        if (this.x <= -30)
+            this.x += 30;
+    },
 
     desenha: function() {
         //spriteChao.desenha(this.x, this.y);
         //spriteChao.desenha(this.x + spriteChao.largura, this.y);
         spriteChao.desenha(this.x, this.y);
-        spriteChao.desenha(this.x+spriteChao.largura, this.y);
+	    spriteChao.desenha(this.x + spriteChao.largura, this.y);
     }
 },
 
@@ -35,16 +64,21 @@ bloco = {
     y: 0,
     altura: spriteBoneco.altura,
     largura: spriteBoneco.largura,
-    cor: "#ff9239",
     gravidade: 1.5,
     velocidade: 0,
     forcaDoPulo: 22,
     qntPulos: 0,
     score: 0,
+    rotacao: 0,
+
+    vidas: 3,
+	colidindo: false,
+
 
     atualiza: function(){
         this.velocidade += this.gravidade;
         this.y += this.velocidade;
+        this.rotacao += Math.PI / 180 * velocidade;
 
         if (this.y > chao.y - this.altura && estadoAtual != estados.perdeu) {
             this.y = chao.y - this.altura;
@@ -65,104 +99,137 @@ bloco = {
         this.y = 0;
 
         if(this.score > record){
-            localStorage.setItem("record", this.score);
             record = this.score;
+            localStorage.setItem("record", this.score);
         }
 
+        this.vidas = 3;
         this.score = 0;
+
+        velocidade = 6;
+        faseAtual = 0;
+        this.gravidade = 1.6;
     },
 
-    desenha: function(){
-        //ctx.fillStyle = this.cor;
-        //ctx.fillRect(this.x, this.y, this.largura, this.altura);
-        spriteBoneco.desenha(this.x, this.y)
+    desenha: function() {
+        ctx.save();
+        ctx.translate(this.x + this.largura / 2, this.y + this.altura / 2);
+        ctx.rotate(this.rotacao);
+        spriteBoneco.desenha(-this.largura / 2, -this.altura / 2);
+        ctx.restore();
     }
 },
 
 obstaculos = {
     _obs: [],
-    cores: ["#218380", "#52796f", "#774936", "#7f5539", "#9c6644", "#0b525b"],
-    tempoInsere: 0,
+    _scored: false,
+    _sprites: [redObstacle, pinkObstacle, blueObstacle, greenObstacle,yellowObstacle],
 
-    insere: function(){
+    timerInsere: 0,
+
+    insere: function() {
         this._obs.push({
             x: LARGURA,
+            y: chao.y - Math.floor(20 + Math.random() * 100),
+            //largura: 50 + Math.floor(10 * Math.random()),
             largura: 50,
-            altura: 30 + Math.floor(120 * Math.random()), 
-            cor: this.cores[Math.floor(6 * Math.random())],
+            sprite: this._sprites[Math.floor(this._sprites.length * Math.random())]
         });
-        if(bloco.score < 9){
-            this.tempoInsere = 50;
-        }
-        else if(bloco.score >= 9 && bloco.score < 29){
-            this.tempoInsere = 48;
-        }
-        else if(bloco.score >= 29 && bloco.score < 49){
-            this.tempoInsere = 47;
-        }
-        else{
-            this.tempoInsere = 46;
-        }
+
+        this.timerInsere = 30 + Math.floor(20 * Math.random());
     },
 
-    atualiza: function(){
-        if(this.tempoInsere == 0)
+    atualiza: function() {
+        if (this.timerInsere == 0)
             this.insere();
+
         else
-            this.tempoInsere--;
+            this.timerInsere--;
 
-        for (var i = 0, tam=this._obs.length - 1; i < tam; i++) {
-            var obs = this._obs[i];
+        for (var i = 0, tam = this._obs.length; i < tam; i++) {
+            var obj = this._obs[i];
+            obj.x -= velocidade;
 
-            obs.x -= velocidade;
+            if (!bloco.colidindo && obj.x <= bloco.x + bloco.largura && 
+                bloco.x <= obj.x + obj.largura && 
+                obj.y <= bloco.y + bloco.altura) {
 
-            if(bloco.x < obs.x + obs.largura && bloco.x + bloco.largura >= obs.x && 
-                bloco.y + bloco.altura >= chao.y - obs.altura){
-                estadoAtual = estados.perdeu;
+                bloco.colidindo = true
+
+                setTimeout(function() {
+                    bloco.colidindo = false;
+                }, 500);
+
+                if (bloco.vidas >= 1)
+                    bloco.vidas--;
+
+                else {
+                    estadoAtual = estados.perdeu
+                }
             }
 
-            else if(obs.x == 0){
+            else if (obj.x <= 0 && !obj._scored) {
                 bloco.score++;
+                obj._scored = true;
+
+                if (faseAtual < pontosParaNovaFase.length &&
+                     bloco.score == pontosParaNovaFase[faseAtual])
+                    passarDeFase();
             }
 
-            else if(obs.x <= -obs.largura){
-                this._obs.splice(i, 1); 
+            else if (obj.x <= -obj.largura) {
+                this._obs.splice(i, 1);
                 tam--;
                 i--;
             }
         }
     },
 
-    limpa: function(){
+    limpa: function() {
         this._obs = [];
     },
 
-    desenha: function(){
-        tam = this._obs.length;
+    desenha: function() {
+        for (var i = 0, tam = this._obs.length; i < tam; i++) {
+            var obj = this._obs[i];
 
-        for (var i = 0, tam = this._obs.length; i < tam; i++){
-            var obs = this._obs[i];
-
-                ctx.fillStyle = obs.cor;
-                ctx.fillRect( obs.x, chao.y - obs.altura, obs.largura, obs.altura);
+            obj.sprite.desenha(obj.x, obj.y);
         }
     }
 };
 
 //funções do meu game
-function clique(event){
-    if(estadoAtual == estados.jogando){
-        bloco.pula();    
-    }
-    else if(estadoAtual == estados.jogar){
-        estadoAtual = estados.jogando;
-    }
-    else if(estadoAtual == estados.perdeu){
-        estadoAtual = estados.jogar;
-        obstaculos.limpa();
-        bloco.reset()
-    }
-}
+function clique(event) {
+			if (estadoAtual == estados.jogar) {
+				estadoAtual = estados.jogando;
+				frames = 0;
+			}
+
+			else if (estadoAtual == estados.perdeu && bloco.y >= 2 * ALTURA) {
+				estadoAtual = estados.jogar;
+				obstaculos.limpa();
+				bloco.reset();
+			}
+
+			else if (estadoAtual == estados.jogando)
+				bloco.pula();
+		}
+
+    function passarDeFase() {
+			VELOCIDADE++;
+			faseAtual++;
+			bloco.vidas++;
+
+			if (faseAtual == 4)
+				bloco.gravidade *= 0.6;
+
+			labelNovaFase.texto = "Level " + faseAtual;
+			labelNovaFase.fadeIn(0.4);
+
+			setTimeout(function() {
+				labelNovaFase.fadeOut(0.4);
+			}, 800);
+		}
 
 function main(){ //funções de minha engine, principal
     ALTURA = window.innerHeight; //tamanho da janela do usuário
@@ -206,74 +273,51 @@ function roda() {
  }
 
 function atualiza() {
+    if (estadoAtual == estados.jogando)
 
+	obstaculos.atualiza();
     chao.atualiza();
     bloco.atualiza();
     
  }
 
-function desenha() {
-    // ctx.fillStyle = "#50beff";
-    // tx.fillRect(0, 0, LARGURA, ALTURA);
-    // chao.desenha();
-
+ function desenha() {
     bg.desenha(0, 0);
 
     ctx.fillStyle = "#fff";
     ctx.font = "50px Arial";
-    ctx.fillText(bloco.score, 28, 62);
-  
-    if(estadoAtual == estados.jogar){
-        ctx.fillStyle = "green";
-        ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100);
-    }
-    
-    else if(estadoAtual == estados.perdeu){
-        ctx.fillStyle = "red";
-        ctx.fillRect(LARGURA/2 - 50, ALTURA/2 - 50, 100, 100)
+    ctx.fillText(bloco.score, 30, 68);
+    ctx.fillText(bloco.vidas, 540, 68);
 
-        ctx.save();
-        ctx.translate(LARGURA/2, ALTURA/2);
-        ctx.fillStyle = "#fff";
-        ctx.font = "50px Arial";
+    ctx.fillStyle = "rgba(0, 0, 0, " + labelNovaFase.opacidade + ")";
+    ctx.fillText(labelNovaFase.texto, canvas.width / 2 - ctx.measureText(labelNovaFase.texto).width / 2, canvas.height / 3);
 
-        if(bloco.score > record){
-            ctx.fillText("Novo Record!", -150, -65);
-        }
-
-        else if(record < 10){
-            ctx.fillText("Record " + record, -99, -65);
-        }
-
-        else if(record >= 10 && record < 10){
-            ctx.fillText("Record " + record, -122, -65);
-        }
-
-        else{
-            ctx.fillText("Record " + record, -125, -65);
-        }
-
-        if(bloco.score < 10){
-            ctx.fillText(bloco.score, -14, 18);
-        }
-        else if(bloco.score >= 10 && bloco.score < 100){
-            ctx.fillText(bloco.score, -28, 18);
-        }
-        else {
-            ctx.fillText(bloco.score, -42, 18);
-        }
-
-        ctx.restore();
-    }
-
-    else if(estadoAtual == estados.jogando){
+    if (estadoAtual == estados.jogando)
         obstaculos.desenha();
-        chao.desenha();
-        bloco.desenha();
-    }
 
-    obstaculos.desenha();
+    chao.desenha();
     bloco.desenha();
- }
 
-main() //chamando a função principal para começar o game
+    if (estadoAtual == estados.jogar)
+        jogar.desenha(LARGURA / 2 - jogar.largura / 2, ALTURA / 2 - jogar.altura / 2);
+
+    if (estadoAtual == estados.perdeu) {
+        perdeu.desenha(LARGURA / 2 - perdeu.largura / 2, ALTURA / 2 - perdeu.altura / 2 - spriteRecord.altura / 2);
+
+        spriteRecord.desenha(LARGURA / 2 - spriteRecord.largura / 2, ALTURA / 2 + perdeu.altura / 2 - spriteRecord.altura / 2 - 25);
+
+        ctx.fillStyle = "#fff";
+        ctx.fillText(bloco.score, 375, 390);
+
+        if (bloco.score > record) {
+            novo.desenha(LARGURA / 2 - 180, ALTURA / 2 + 30);
+            ctx.fillText(bloco.score, 420, 470);
+        }
+
+        else
+            ctx.fillText(record, 420, 470);
+    }
+}
+
+//inicializa o jogo
+main();
