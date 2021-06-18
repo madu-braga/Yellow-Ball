@@ -1,7 +1,7 @@
 //var do meu game
 var canvas, ctx; // desenho e contexto
 var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
-var estadoAtual, record, 
+var estadoAtual, record, img,
 
 estados = {
     jogar: 0,
@@ -9,24 +9,30 @@ estados = {
     perdeu: 2,
 },
 
-    chao = { // chão
+chao = {
     y: 550,
+    x: 0,
     altura: 50,
-    cor: "#7cfc00",
 
-    desenha: function(){ // criando método pro objeto
-        ctx.fillStyle = this.cor;
-        ctx.fillRect(0, this.y, LARGURA, this.altura);
+    atualiza: function() {
+        this.x -= VELOCIDADE;
 
+        if (this.x <= -30)
+            this.x += 30;
+    },
+
+    desenha: function() {
+        spriteChao.desenha(this.x, this.y);
+        spriteChao.desenha(this.x + spriteChao.largura, this.y);
     }
 },
 
 bloco = {
     x: 50,
     y: 0,
-    altura: 50,
-    largura: 50,
-    cor: "#ffdb18",
+    altura: spriteBoneco.altura,
+    largura: spriteBoneco.largura,
+    cor: "#ff9239",
     gravidade: 1.5,
     velocidade: 0,
     forcaDoPulo: 22,
@@ -64,8 +70,9 @@ bloco = {
     },
 
     desenha: function(){
-        ctx.fillStyle = this.cor;
-        ctx.fillRect(this.x, this.y, this.largura, this.altura);
+        //ctx.fillStyle = this.cor;
+        //ctx.fillRect(this.x, this.y, this.largura, this.altura);
+        spriteBoneco.desenha(this.x, this.y)
     }
 },
 
@@ -181,6 +188,9 @@ function main(){ //funções de minha engine, principal
         record = 0;
     }
 
+    img = new Image();
+	img.src = "sheet.png";
+
     roda();
  }
 
@@ -204,9 +214,11 @@ function atualiza() {
  }
 
 function desenha() {
-    ctx.fillStyle = "#50beff";
-    ctx.fillRect(0, 0, LARGURA, ALTURA);
-    chao.desenha();
+    // ctx.fillStyle = "#50beff";
+    // tx.fillRect(0, 0, LARGURA, ALTURA);
+    // chao.desenha();
+
+    bg.desenha(0, 0);
 
     ctx.fillStyle = "#fff";
     ctx.font = "50px Arial";
