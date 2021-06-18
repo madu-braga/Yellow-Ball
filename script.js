@@ -1,6 +1,6 @@
 //var do meu game
 var canvas, ctx; // desenho e contexto
-var ALTURA, LARGURA, frames=0, maxPulos = 3, velocidade = 6; // tela e contagem 
+var ALTURA, LARGURA, maxPulos = 3, velocidade = 6; // tela e contagem 
 var estadoAtual, record, img,
 
 estados = {
@@ -15,15 +15,18 @@ chao = {
     altura: 50,
 
     atualiza: function() {
-        this.x -= VELOCIDADE;
+       this.x -= velocidade;
 
-        if (this.x <= -30)
-            this.x += 30;
-    },
+       if (this.x <= -30) {
+        this.x = 0;
+    }
+},
 
     desenha: function() {
+        //spriteChao.desenha(this.x, this.y);
+        //spriteChao.desenha(this.x + spriteChao.largura, this.y);
         spriteChao.desenha(this.x, this.y);
-        spriteChao.desenha(this.x + spriteChao.largura, this.y);
+        spriteChao.desenha(this.x+spriteChao.largura, this.y);
     }
 },
 
@@ -203,13 +206,9 @@ function roda() {
  }
 
 function atualiza() {
-    frames++;
 
+    chao.atualiza();
     bloco.atualiza();
-
-    if(estadoAtual == estados.jogando){
-        obstaculos.atualiza();
-    }
     
  }
 
