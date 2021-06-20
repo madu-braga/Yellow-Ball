@@ -13,9 +13,9 @@
 ## 🚀 Linguagens
 ✔️ Foi utilizado JavaScript, html e css no projeto.
 
-## 🎨 Layout
+## 🎨 Layout e Execução
 <p align="left">
-      <img src="Imagens/img1.png" width="360"> 
+      <img src="Jogo.gif" width="760"> 
       
 ## ⚖️ Licença
 ✔️ MIT License.
