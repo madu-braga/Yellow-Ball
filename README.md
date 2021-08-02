@@ -15,7 +15,7 @@
 
 ## 🎨 Layout e Execução
 <p align="left">
-      <img src="Jogo.gif" width="760"> 
+      <img src="Jogo.gif" width="660" height="500"> 
       
 ## ⚖️ Licença
 ✔️ MIT License.
