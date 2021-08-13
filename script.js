@@ -216,7 +216,7 @@ function clique(event) {
 		}
 
     function passarDeFase() {
-			VELOCIDADE++;
+			velocidade++;
 			faseAtual++;
 			bloco.vidas++;
 
