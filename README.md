@@ -11,7 +11,7 @@
 ✔️ Foi usado como base de exemplo e expliação o tutorial do Veslasoft.
 
 ## 🚀 Linguagens
-✔️ Foi utilizado JavaScript, html e css no projeto.
+✔️ JavaScript, HTML5 e CSS.
 
 ## 🎨 Layout e Execução
 <p align="left">
