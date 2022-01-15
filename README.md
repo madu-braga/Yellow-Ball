@@ -2,13 +2,13 @@
 <p align="center">Game recreation and adaptation</p>
   
 ## 🎯 Functionalities
-✔️ O programa codado busca recriar o famoso jogo "Yellow Ball"; <br>
-✔️ O programa reconhece o uso do clicar do mouse para pular; <br>
-✔️ O programa contém cenários e objetos visuais; <br>
-✔️ O programa tem fases, vidas e obstáculos; <br>
-✔️ O programa reconhece um novo record e o atualiza na tela; <br>
-✔️ O programa permite ao usuário jogar quantas vezes desejar; <br>
-✔️ Foi usado como base de exemplo e expliação o tutorial do Veslasoft.
+✔️ The coded program seeks to recreate the famous game "Yellow Ball"; <br>
+✔️ The program recognizes the use of mouse click to jump; <br>
+✔️ The program contains scenarios and visual objects; <br>
+✔️ The program has phases, lives and obstacles; <br>
+✔️ The program recognizes a new record and updates it on the screen; <br>
+✔️ The program allows the user to play as many times as he wants; <br>
+✔️ The tutorial "Veslasoft" was used as an example.
 
 ## 🚀 Languages
 ✔️ JavaScript, HTML5 e CSS.
