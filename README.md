@@ -1,7 +1,7 @@
 <h1 align="center"> Yellow Ball </h1>
-<p align="center">Recriação e adaptação do jogo
+<p align="center">Game recreation and adaptation</p>
   
-## 🎯 Funcionalidades
+## 🎯 Functionalities
 ✔️ O programa codado busca recriar o famoso jogo "Yellow Ball"; <br>
 ✔️ O programa reconhece o uso do clicar do mouse para pular; <br>
 ✔️ O programa contém cenários e objetos visuais; <br>
@@ -10,17 +10,17 @@
 ✔️ O programa permite ao usuário jogar quantas vezes desejar; <br>
 ✔️ Foi usado como base de exemplo e expliação o tutorial do Veslasoft.
 
-## 🚀 Linguagens
+## 🚀 Languages
 ✔️ JavaScript, HTML5 e CSS.
 
-## 🎨 Layout e Execução
+## 🎨 Layout and Execution
 <p align="left">
       <img src="Jogo.gif" width="660" height="500"> 
       
-## ⚖️ Licença
+## ⚖️ License
 ✔️ MIT License.
 
-## 🔥 Sobre mim 
+## 🔥 About Myself
   <div>
   <p align="leftr">
   <a href = "https://mail.google.com/mail/u/1/#inbox"><img src="https://img.shields.io/badge/-Gmail-%23EA4335?style=for-the-badge&logo=gmail&logoColor=white" target="_blank">
