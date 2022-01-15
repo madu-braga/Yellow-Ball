@@ -1,5 +1,5 @@
 <h1 align="center"> Yellow Ball </h1>
-<p align="center">Game recreation and adaptation</p>
+<p align="center">Game Recreation and Adaptation</p>
   
 ## 🎯 Functionalities
 ✔️ The coded program seeks to recreate the famous game "Yellow Ball"; <br>
