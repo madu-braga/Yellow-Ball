@@ -2,11 +2,11 @@
 <p align="center">Game Recreation and Adaptation</p>
   
 ## 🎯 Functionalities
-✔️ The coded program seeks to recreate the famous game "Yellow Ball"; <br>
+✔️ The code to recreate the famous game "Yellow Ball"; <br>
 ✔️ The program recognizes the use of mouse click to jump; <br>
 ✔️ The program contains scenarios and visual objects; <br>
-✔️ The program has phases, lives and obstacles; <br>
-✔️ The program recognizes a new record and updates it on the screen; <br>
+✔️ The code has phases, lives and obstacles; <br>
+✔️ The code recognizes a new record and updates it on the screen; <br>
 ✔️ The program allows the user to play as many times as he wants; <br>
 ✔️ The tutorial "Veslasoft" was used as an example.
 
