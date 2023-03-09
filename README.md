@@ -2,6 +2,7 @@
 <p align="center">Game Recreation and Adaptation</p>
   
 ## 🎯 Functionalities
+
 ✔️ The code to recreate the famous game "Yellow Ball"; <br>
 ✔️ The program recognizes the use of mouse click to jump; <br>
 ✔️ The program contains scenarios and visual objects; <br>
